@@ -1,0 +1,31 @@
+html, body, #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.react-flow__edge-path {
+    stroke: #333;
+    stroke-width: 2;
+}
+
+.temp .react-flow__edge-path {
+    stroke: #bbb;
+    stroke-dasharray: 5 5;
+}
+
+.react-flow__connection-path {
+    stroke: #ff0000; /* Яркий красный цвет */
+    stroke-width: 2;
+    stroke-dasharray: 5, 5;
+  }
+  
+  .temp .react-flow__edge-path {
+    stroke: #ff0000; /* Яркий красный цвет */
+    stroke-width: 2;
+    stroke-dasharray: 5, 5;
+  }
+  

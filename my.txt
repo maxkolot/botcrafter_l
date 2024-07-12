@@ -1,0 +1,739 @@
+Название файла: App.js
+Расположение файла: ./src\App.js
+
+import React, { useState } from "react";
+import { ReactFlowProvider } from 'react-flow-renderer';
+import TokenValidationScreen from "./components/TokenValidationScreen";
+import MainScreen from "./components/MainScreen";
+
+const App = () => {
+  const [tokenValid, setTokenValid] = useState(false);
+
+  return (
+    <div>
+      {tokenValid ? (
+        <ReactFlowProvider>
+          <MainScreen />
+        </ReactFlowProvider>
+      ) : (
+        <TokenValidationScreen onTokenValid={() => setTokenValid(true)} />
+      )}
+    </div>
+  );
+};
+
+export default App;
+ 
+
+Название файла: index.css
+Расположение файла: ./src\index.css
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+Название файла: App.css
+Расположение файла: ./src\App.css
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+Название файла: index.js
+Расположение файла: ./src\index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+
+
+Название файла: App.test.js
+Расположение файла: ./src\App.test.js
+
+import { render, screen } from '@testing-library/react';
+import App from './App';
+
+test('renders learn react link', () => {
+  render(<App />);
+  const linkElement = screen.getByText(/learn react/i);
+  expect(linkElement).toBeInTheDocument();
+});
+
+
+Название файла: setupTests.js
+Расположение файла: ./src\setupTests.js
+
+// jest-dom adds custom jest matchers for asserting on DOM nodes.
+// allows you to do things like:
+// expect(element).toHaveTextContent(/react/i)
+// learn more: https://github.com/testing-library/jest-dom
+import '@testing-library/jest-dom';
+
+
+Название файла: reportWebVitals.js
+Расположение файла: ./src\reportWebVitals.js
+
+const reportWebVitals = onPerfEntry => {
+  if (onPerfEntry && onPerfEntry instanceof Function) {
+    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+      getCLS(onPerfEntry);
+      getFID(onPerfEntry);
+      getFCP(onPerfEntry);
+      getLCP(onPerfEntry);
+      getTTFB(onPerfEntry);
+    });
+  }
+};
+
+export default reportWebVitals;
+
+
+Название файла: CustomConnectionLine.js
+Расположение файла: ./src\components\CustomConnectionLine.js
+
+import React from 'react';
+import { getBezierPath } from 'react-flow-renderer';
+
+const CustomConnectionLine = ({ fromX, fromY, toX, toY }) => {
+  const [edgePath] = getBezierPath({
+    sourceX: fromX,
+    sourceY: fromY,
+    targetX: toX,
+    targetY: toY,
+  });
+
+  return (
+    <path
+      className="react-flow__connection-path"
+      d={edgePath}
+      stroke="black"
+      strokeWidth={2}
+    />
+  );
+};
+
+export default CustomConnectionLine;
+
+
+Название файла: NodeMenu.js
+Расположение файла: ./src\components\NodeMenu.js
+
+import React from 'react';
+
+const NodeMenu = ({ position, onSelect }) => {
+  const menuItems = [
+    'Сообщение',
+    'Условие',
+    'Получение текста',
+    'Получение медиа',
+    'Запросить геолокацию',
+    'Запросить контакт',
+  ];
+  return (
+    <div
+      className="node-menu"
+      style={{
+        position: 'absolute',
+        top: position.y,
+        left: position.x,
+        background: 'white',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+        zIndex: 1000,
+      }}
+    >
+      {menuItems.map((item) => (
+        <div
+          key={item}
+          style={{
+            padding: '8px 12px',
+            cursor: 'pointer',
+            borderBottom: '1px solid #eee',
+          }}
+          onClick={() => onSelect(item)}
+        >
+          {item}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default NodeMenu;
+
+
+Название файла: style.css
+Расположение файла: ./src\components\style.css
+
+.react-flow__handle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: white;
+  }
+  
+  .react-flow__edge-path {
+    background-color: white;
+    stroke: #333;
+    stroke-width: 2;
+  }
+  .react-flow__attribution {
+    display: none;
+  }
+
+
+
+  
+  .temp .react-flow__edge-path {
+    background-color: white;
+    stroke: #bbb;
+    stroke-dasharray: 5 5;
+  }
+  
+  .node-menu {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  
+
+Название файла: CustomNode.js
+Расположение файла: ./src\components\CustomNode.js
+
+import React, { useState } from 'react';
+import { Handle, Position } from 'react-flow-renderer';
+
+const CustomNode = ({ id, data, deleteNode }) => {
+  const [label, setLabel] = useState(data.label);
+  const [showDelete, setShowDelete] = useState(false);
+
+  const onLabelDoubleClick = () => {
+    const newLabel = prompt('Введите текст кнопки', label);
+    if (newLabel !== null) {
+      setLabel(newLabel);
+    }
+  };
+
+  const onMouseEnter = () => setShowDelete(true);
+  const onMouseLeave = () => setShowDelete(false);
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        backdropFilter: 'blur(1px)',
+        backgroundColor: '#ffffff5c',
+        padding: 10,
+        border: '1px solid #ddd',
+        borderRadius: 5,
+        willChange: 'transform',
+      }}
+      id='modal'
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {showDelete && (
+        <div
+          style={{
+            position: 'absolute',
+            top: -10,
+            right: -10,
+            width: 24,
+            height: 24,
+            background: 'red',
+            color: 'white',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            fontSize: 16,
+          }}
+          onClick={() => deleteNode(id)}
+        >
+          &times;
+        </div>
+      )}
+      <div>{data.label}</div>
+      <input type="text" placeholder="Введите текст" />
+      <button onDoubleClick={onLabelDoubleClick}>{label}</button>
+      <Handle
+        type="source"
+        position={Position.Right}
+        style={{ background: '#555' }}
+        isValidConnection={(connection) => connection.target !== id}
+      />
+      <Handle
+        type="target"
+        position={Position.Left}
+        style={{ background: '#555' }}
+        isValidConnection={(connection) => connection.source !== id}
+      />
+    </div>
+  );
+};
+
+export default CustomNode;
+
+
+Название файла: logo.svg
+Расположение файла: ./src\logo.svg
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 841.9 595.3"><g fill="#61DAFB"><path d="M666.3 296.5c0-32.5-40.7-63.3-103.1-82.4 14.4-63.6 8-114.2-20.2-130.4-6.5-3.8-14.1-5.6-22.4-5.6v22.3c4.6 0 8.3.9 11.4 2.6 13.6 7.8 19.5 37.5 14.9 75.7-1.1 9.4-2.9 19.3-5.1 29.4-19.6-4.8-41-8.5-63.5-10.9-13.5-18.5-27.5-35.3-41.6-50 32.6-30.3 63.2-46.9 84-46.9V78c-27.5 0-63.5 19.6-99.9 53.6-36.4-33.8-72.4-53.2-99.9-53.2v22.3c20.7 0 51.4 16.5 84 46.6-14 14.7-28 31.4-41.3 49.9-22.6 2.4-44 6.1-63.6 11-2.3-10-4-19.7-5.2-29-4.7-38.2 1.1-67.9 14.6-75.8 3-1.8 6.9-2.6 11.5-2.6V78.5c-8.4 0-16 1.8-22.6 5.6-28.1 16.2-34.4 66.7-19.9 130.1-62.2 19.2-102.7 49.9-102.7 82.3 0 32.5 40.7 63.3 103.1 82.4-14.4 63.6-8 114.2 20.2 130.4 6.5 3.8 14.1 5.6 22.5 5.6 27.5 0 63.5-19.6 99.9-53.6 36.4 33.8 72.4 53.2 99.9 53.2 8.4 0 16-1.8 22.6-5.6 28.1-16.2 34.4-66.7 19.9-130.1 62-19.1 102.5-49.9 102.5-82.3zm-130.2-66.7c-3.7 12.9-8.3 26.2-13.5 39.5-4.1-8-8.4-16-13.1-24-4.6-8-9.5-15.8-14.4-23.4 14.2 2.1 27.9 4.7 41 7.9zm-45.8 106.5c-7.8 13.5-15.8 26.3-24.1 38.2-14.9 1.3-30 2-45.2 2-15.1 0-30.2-.7-45-1.9-8.3-11.9-16.4-24.6-24.2-38-7.6-13.1-14.5-26.4-20.8-39.8 6.2-13.4 13.2-26.8 20.7-39.9 7.8-13.5 15.8-26.3 24.1-38.2 14.9-1.3 30-2 45.2-2 15.1 0 30.2.7 45 1.9 8.3 11.9 16.4 24.6 24.2 38 7.6 13.1 14.5 26.4 20.8 39.8-6.3 13.4-13.2 26.8-20.7 39.9zm32.3-13c5.4 13.4 10 26.8 13.8 39.8-13.1 3.2-26.9 5.9-41.2 8 4.9-7.7 9.8-15.6 14.4-23.7 4.6-8 8.9-16.1 13-24.1zM421.2 430c-9.3-9.6-18.6-20.3-27.8-32 9 .4 18.2.7 27.5.7 9.4 0 18.7-.2 27.8-.7-9 11.7-18.3 22.4-27.5 32zm-74.4-58.9c-14.2-2.1-27.9-4.7-41-7.9 3.7-12.9 8.3-26.2 13.5-39.5 4.1 8 8.4 16 13.1 24 4.7 8 9.5 15.8 14.4 23.4zM420.7 163c9.3 9.6 18.6 20.3 27.8 32-9-.4-18.2-.7-27.5-.7-9.4 0-18.7.2-27.8.7 9-11.7 18.3-22.4 27.5-32zm-74 58.9c-4.9 7.7-9.8 15.6-14.4 23.7-4.6 8-8.9 16-13 24-5.4-13.4-10-26.8-13.8-39.8 13.1-3.1 26.9-5.8 41.2-7.9zm-90.5 125.2c-35.4-15.1-58.3-34.9-58.3-50.6 0-15.7 22.9-35.6 58.3-50.6 8.6-3.7 18-7 27.7-10.1 5.7 19.6 13.2 40 22.5 60.9-9.2 20.8-16.6 41.1-22.2 60.6-9.9-3.1-19.3-6.5-28-10.2zM310 490c-13.6-7.8-19.5-37.5-14.9-75.7 1.1-9.4 2.9-19.3 5.1-29.4 19.6 4.8 41 8.5 63.5 10.9 13.5 18.5 27.5 35.3 41.6 50-32.6 30.3-63.2 46.9-84 46.9-4.5-.1-8.3-1-11.3-2.7zm237.2-76.2c4.7 38.2-1.1 67.9-14.6 75.8-3 1.8-6.9 2.6-11.5 2.6-20.7 0-51.4-16.5-84-46.6 14-14.7 28-31.4 41.3-49.9 22.6-2.4 44-6.1 63.6-11 2.3 10.1 4.1 19.8 5.2 29.1zm38.5-66.7c-8.6 3.7-18 7-27.7 10.1-5.7-19.6-13.2-40-22.5-60.9 9.2-20.8 16.6-41.1 22.2-60.6 9.9 3.1 19.3 6.5 28.1 10.2 35.4 15.1 58.3 34.9 58.3 50.6-.1 15.7-23 35.6-58.4 50.6zM320.8 78.4z"/><circle cx="420.9" cy="296.5" r="45.7"/><path d="M520.5 78.1z"/></g></svg>
+
+Название файла: TokenValidationScreen.js
+Расположение файла: ./src\components\TokenValidationScreen.js
+
+// src/components/TokenValidationScreen.js
+import React from "react";
+import TokenInput from "./TokenInput";
+
+const TokenValidationScreen = ({ onTokenValid }) => {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh", backgroundColor: "#f0f0f0" }}>
+      <TokenInput onTokenValid={onTokenValid} />
+    </div>
+  );
+};
+
+export default TokenValidationScreen;
+
+
+Название файла: MainScreen.js
+Расположение файла: ./src\components\MainScreen.js
+
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
+import ReactFlow, {
+  addEdge,
+  useNodesState,
+  useEdgesState,
+  Background,
+  BackgroundVariant,
+  Controls,
+  ReactFlowProvider,
+  useStoreApi,
+  useReactFlow,
+} from 'react-flow-renderer';
+import NodeMenu from './NodeMenu';
+import CustomNode from './CustomNode';
+import FloatingEdge from './FloatingEdge';
+import CustomConnectionLine from './CustomConnectionLine';
+
+import './style.css';
+
+const initialNodes = [];
+const initialEdges = [];
+
+const connectionLineStyle = {
+  strokeWidth: 3,
+  stroke: 'black',
+};
+
+const defaultEdgeOptions = {
+  style: { strokeWidth: 3, stroke: 'black' },
+  type: 'floating',
+};
+
+const MIN_DISTANCE = 150;
+
+const MainScreen = () => {
+  const store = useStoreApi();
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const reactFlowWrapper = useRef(null);
+  const reactFlowInstance = useRef(null);
+
+  const onConnect = useCallback(
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
+
+  const getClosestEdge = useCallback((node) => {
+    const { nodeInternals } = store.getState();
+    const internalNode = nodeInternals.get(node.id);
+
+    const closestNode = Array.from(nodeInternals.values()).reduce(
+      (res, n) => {
+        if (n.id !== internalNode.id) {
+          const dx = n.positionAbsolute.x - internalNode.positionAbsolute.x;
+          const dy = n.positionAbsolute.y - internalNode.positionAbsolute.y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+
+          if (d < res.distance && d < MIN_DISTANCE) {
+            res.distance = d;
+            res.node = n;
+          }
+        }
+
+        return res;
+      },
+      {
+        distance: Number.MAX_VALUE,
+        node: null,
+      },
+    );
+
+    if (!closestNode.node) {
+      return null;
+    }
+
+    const closeNodeIsSource =
+      closestNode.node.positionAbsolute.x < internalNode.positionAbsolute.x;
+
+    return {
+      id: closeNodeIsSource
+        ? `${closestNode.node.id}-${node.id}`
+        : `${node.id}-${closestNode.node.id}`,
+      source: closeNodeIsSource ? closestNode.node.id : node.id,
+      target: closeNodeIsSource ? node.id : closestNode.node.id,
+    };
+  }, []);
+
+  const onNodeDrag = useCallback(
+    (_, node) => {
+      const closeEdge = getClosestEdge(node);
+
+      setEdges((es) => {
+        const nextEdges = es.filter((e) => e.className !== 'temp');
+
+        if (
+          closeEdge &&
+          !nextEdges.find(
+            (ne) =>
+              ne.source === closeEdge.source && ne.target === closeEdge.target,
+          )
+        ) {
+          closeEdge.className = 'temp';
+          nextEdges.push(closeEdge);
+        }
+
+        return nextEdges;
+      });
+    },
+    [getClosestEdge, setEdges]
+  );
+
+  const onNodeDragStop = useCallback(
+    (_, node) => {
+      const closeEdge = getClosestEdge(node);
+
+      setEdges((es) => {
+        const nextEdges = es.filter((e) => e.className !== 'temp');
+
+        if (
+          closeEdge &&
+          !nextEdges.find(
+            (ne) =>
+              ne.source === closeEdge.source && ne.target === closeEdge.target,
+          )
+        ) {
+          nextEdges.push(closeEdge);
+        }
+
+        return nextEdges;
+      });
+    },
+    [getClosestEdge]
+  );
+
+  const showMenu = (event) => {
+    event.preventDefault();
+    setCursorPosition({ x: event.clientX, y: event.clientY });
+    setMenuPosition({ x: event.clientX, y: event.clientY });
+    setMenuVisible(true);
+  };
+
+  const hideMenu = () => setMenuVisible(false);
+
+  const addNode = (type) => {
+    if (reactFlowInstance.current) {
+      const { project } = reactFlowInstance.current;
+
+      const newNode = {
+        id: (nodes.length + 1).toString(),
+        type: 'custom',
+        position: project({
+          x: cursorPosition.x - reactFlowWrapper.current.getBoundingClientRect().left,
+          y: cursorPosition.y - reactFlowWrapper.current.getBoundingClientRect().top,
+        }),
+        data: { label: type },
+      };
+      setNodes((nds) => nds.concat(newNode));
+      hideMenu();
+    }
+  };
+
+  const deleteNode = useCallback(
+    (nodeId) => {
+      setNodes((nds) => nds.filter((node) => node.id !== nodeId));
+      setEdges((eds) => eds.filter((edge) => edge.source !== nodeId && edge.target !== nodeId));
+    },
+    [setNodes, setEdges]
+  );
+
+  const nodeTypes = useMemo(() => ({
+    custom: (props) => <CustomNode {...props} deleteNode={deleteNode} />,
+  }), [deleteNode]);
+
+  const edgeTypes = useMemo(() => ({
+    floating: FloatingEdge,
+  }), []);
+
+  const onInit = (instance) => {
+    reactFlowInstance.current = instance;
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuVisible && !event.target.closest('.node-menu')) {
+        hideMenu();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuVisible]);
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        height: '100vh',
+        width: '100vw',
+        backgroundColor: 'rgb(229 229 229)',
+        overflow: 'hidden',
+        willChange: 'transform',
+      }}
+      onContextMenu={showMenu}
+    >
+      <div
+        ref={reactFlowWrapper}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <ReactFlow
+          attributionPosition="none"
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onNodeDrag={onNodeDrag}
+          onNodeDragStop={onNodeDragStop}
+          onInit={onInit}
+          fitView
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          defaultEdgeOptions={defaultEdgeOptions}
+          connectionLineStyle={connectionLineStyle}
+          connectionLineComponent={CustomConnectionLine}
+          zoomOnScroll={true}
+          minZoom={0.5}
+          maxZoom={2}
+        >
+          <Background variant={BackgroundVariant.Dots} gap={15} size={1.5} />
+          <Controls />
+        </ReactFlow>
+      </div>
+      {menuVisible && <NodeMenu position={menuPosition} onSelect={addNode} />}
+    </div>
+  );
+};
+
+export default () => (
+  <ReactFlowProvider>
+    <MainScreen />
+  </ReactFlowProvider>
+);
+
+
+Название файла: tokenCheck.js
+Расположение файла: ./src\tokenCheck.js
+
+const express = require("express");
+const bodyParser = require("body-parser");
+const { exec } = require("child_process");
+
+const app = express();
+const PORT = 5000;
+
+app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  next();
+});
+
+app.post("/tokenCheck", (req, res) => {
+  const { token } = req.body;
+  console.log(`Received token: ${token}`);
+  if (!token) {
+    res.status(400).send({ valid: false, error: "Token is required" });
+    return;
+  }
+  exec(`python token_check.py ${token}`, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      res.status(500).send({ valid: false, error: stderr });
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.error(`stderr: ${stderr}`);
+    try {
+      const result = JSON.parse(stdout);
+      res.send(result);
+    } catch (e) {
+      console.error(`JSON parse error: ${e}`);
+      res.status(500).send({ valid: false });
+    }
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+
+Название файла: FloatingEdge.js
+Расположение файла: ./src\components\FloatingEdge.js
+
+import React from 'react';
+import { getBezierPath } from 'react-flow-renderer';
+
+const FloatingEdge = ({ id, sourceX, sourceY, targetX, targetY, markerEnd }) => {
+  const [edgePath] = getBezierPath({ sourceX, sourceY, targetX, targetY });
+
+  return (
+    <>
+      <path
+        // style={{ background: 'red' }}
+        id={id}
+        className="react-flow__edge-path"
+        d={edgePath}
+        markerEnd={markerEnd}
+      />
+    </>
+  );
+};
+ 
+export default FloatingEdge;
+
+
+Название файла: TokenInput.js
+Расположение файла: ./src\components\TokenInput.js
+
+// src/components/TokenInput.js
+import React, { useState } from "react";
+import axios from "axios";
+
+const TokenInput = ({ onTokenValid }) => {
+  const [token, setToken] = useState("");
+  const [error, setError] = useState("");
+
+  const handleInputChange = (e) => {
+    setToken(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post("http://localhost:5000/tokenCheck", { token });
+      if (response.data.valid) {
+        onTokenValid();
+      } else {
+        setError("Invalid token format.");
+      }
+    } catch (err) {
+      setError("Error checking token.");
+    }
+  };
+
+  return (
+    <div style={{ padding: "20px", textAlign: "center" }}>
+      <h2>Enter Token</h2>
+      <input type="text" value={token} onChange={handleInputChange} />
+      <button onClick={handleSubmit}>Submit</button>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </div>
+  );
+};
+
+export default TokenInput;
+
+
